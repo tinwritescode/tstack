@@ -13,13 +13,19 @@ and explore new ideas, skip fixes to code being replaced.
 Bring in three delegates to help with the user's request, usually for review
 or feedback. Use one strong model from each of three different providers, at
 high reasoning effort. If the user's instructions name council members, use
-those. Otherwise pick the latest flagship model from each provider, for
-example Claude Opus, GPT Sol, and Gemini Pro.
+those. Otherwise use these three:
 
-In T3 Code, use `orchestrator_capabilities` to resolve the models, then
-`delegate_task` to start one delegate per model in parallel. Elsewhere, use
-the harness's subagent tools. If you cannot reach three providers, or a named
-member is unavailable, report it instead of substituting.
+| Delegate | T3 Code target |
+| --- | --- |
+| Claude Opus | native subagent (`Agent`, `model: "opus"`, `effort: "high"`) |
+| GPT 6.2 Sol | `magpie-codex` / `xpiki/gpt-6.2-sol`, `reasoningEffort: "high"` |
+| Gemini 4 Neon | `antigravity` / `gemini-4-neon`, `thought_level: "high"` |
+
+In T3 Code, use `orchestrator_capabilities` to confirm the models, then
+`delegate_task` with `role: "review"` to start the non-native delegates, all
+in parallel. Elsewhere, use the harness's subagent tools. If you cannot reach
+three providers, or a named member is unavailable, report it instead of
+substituting.
 
 Give each delegate the request and relevant context. For review or feedback,
 keep their work read-only. Collect their responses and summarize the useful
@@ -46,8 +52,8 @@ Rounds: 2
 | Delegate | Round 1 | Round 2 |
 | --- | --- | --- |
 | Claude Opus | 7/10 | 9/10 |
-| GPT Sol | 8/10 | 10/10 |
-| Gemini Pro | 7/10 | 9/10 |
+| GPT 6.2 Sol | 8/10 | 10/10 |
+| Gemini 4 Neon | 7/10 | 9/10 |
 ```
 
 If a delegate gives no score, write `no score`. Do not invent one.
